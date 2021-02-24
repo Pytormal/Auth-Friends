@@ -5,46 +5,42 @@ import { axiosWithAuth } from '../utils/axiosWithAuth'
 
 
 
-class FriendsList extends React.Component{
+class FriendsList extends React.Component {
+	state = {
+		friends: [],
+	};
 
-  componentDidMount() {
-    this.getData();
-  }
+	componentDidMount() {
+		this.getData();
+	}
 
-  getData = () => {
-    axiosWithAuth().get('/friends')
-      .then((res) => { 
-       this.setState(res.data);
-       console.log("friends.js list",res.data)
-        })
-        .catch((error) => {
-          console.error("Server Error", error);
-        });
+	getData = () => {
+		axiosWithAuth()
+			.get('/friends')
+			.then((res) => {
+				this.setState(res.data);
+        console.log('friends.js list', res.data);
+        		
+        const friends = res.data.map(e => 
+          <p>{e.name}</p>
+        )
+        this.setState({ friends})
+			})
+			.catch((error) => {
+				console.error('Server Error', error);
+			});
   };
-
   
+ 
+  render() {
+    return (
+      <>
+      <h1>hello friends</h1>
+        <div>{this.state.friends}</div>
+        </>
+  )
+}
 
-  //   render() {
-  //     return (
-  //      <div className="friend">
-  //     {this.setState.map((getData) => (
-  //       <div className="getData">{getData}</div>
-  //     ))}
-  //   </div>
-   
-  //   )
-  //     }
-
-  
-    render() {
-      return (
-    <div className="users">
-      {/* {this.friends.map((getData) => (
-        <div className="user">{getData}</div>
-      ))} */}
-    </div>
-  );   
-  };
   
 }
 export default FriendsList
